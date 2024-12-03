@@ -1,25 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import Home from './components/Home';
+import CRUDMain from './components/CRUD/CRUDMain';
+import Create from './components/CRUD/Create';
+import Read from './components/CRUD/Read';
+import Update from './components/CRUD/Update';
+import Delete from './components/CRUD/Delete';
+import History from './components/CRUD/History';
 
-function App() {
+function AppContent() {
+  const navigate = useNavigate();
+
+  const navigateToHome = () => navigate('/');
+  const navigateToCreate = () => navigate('/crud/create');
+  const navigateToRead = () => navigate('/crud/read');
+  const navigateToUpdate = () => navigate('/crud/update');
+  const navigateToDelete = () => navigate('/crud/delete');
+  const navigateToHistory = () => navigate('/crud/history');
+  const navigateBack = () => navigate('/crud');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route
+        path="/crud"
+        element={
+          <CRUDMain
+            navigateToCreate={navigateToCreate}
+            navigateToRead={navigateToRead}
+            navigateToUpdate={navigateToUpdate}
+            navigateToDelete={navigateToDelete}
+            navigateToHistory={navigateToHistory}
+            navigateToHome={navigateToHome}
+          />
+        }
+      />
+      <Route
+        path="/crud/create"
+        element={<Create navigateBack={navigateBack} navigateHome={navigateToHome} />}
+      />
+      <Route
+        path="/crud/read"
+        element={<Read navigateBack={navigateBack} navigateHome={navigateToHome} />}
+      />
+      <Route
+        path="/crud/update"
+        element={<Update navigateBack={navigateBack} navigateHome={navigateToHome} />}
+      />
+      <Route
+        path="/crud/delete"
+        element={<Delete navigateBack={navigateBack} navigateHome={navigateToHome} />}
+      />
+      <Route
+        path="/crud/history"
+        element={<History navigateBack={navigateBack} navigateHome={navigateToHome} />}
+      />
+    </Routes>
   );
 }
 
-export default App;
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+export default App; 
