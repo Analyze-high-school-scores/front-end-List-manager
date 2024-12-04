@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaHome, FaFileDownload } from 'react-icons/fa';
+import { API_URL } from '../../config';
 
 const CleanMain = ({ navigateToHome }) => {
   const [selectedOption, setSelectedOption] = useState('1');
@@ -12,7 +13,7 @@ const CleanMain = ({ navigateToHome }) => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/clean/${selectedOption}`, {
+      const response = await fetch(`${API_URL}/clean/${selectedOption}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -21,30 +22,35 @@ const CleanMain = ({ navigateToHome }) => {
       });
       
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Có lỗi xảy ra khi làm sạch dữ liệu');
+        const errorText = await response.text();
+        console.error('Server response:', errorText);
+        throw new Error(errorText || 'Có lỗi xảy ra khi làm sạch dữ liệu');
       }
       
       const result = await response.json();
+      console.log('Server response:', result);
       
       if (!result.data) {
         throw new Error('Không nhận được dữ liệu từ server');
       }
       
-      // Tạo và tải file
-      const blob = new Blob([result.data], { type: 'text/csv;charset=utf-8' });
+      const blob = new Blob([result.data], { type: 'text/csv;charset=utf-8;' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
+      a.style.display = 'none';
       a.href = url;
       a.download = 'Cleaned_Data.csv';
+      
       document.body.appendChild(a);
       a.click();
+      
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
       
       setShowConfirm(false);
+      
     } catch (err) {
-      console.error('Error in handleClean:', err);
+      console.error('Error details:', err);
       setError(err.message || 'Có lỗi xảy ra khi làm sạch dữ liệu');
     } finally {
       setIsLoading(false);

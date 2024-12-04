@@ -25,7 +25,7 @@ function AppContent() {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home navigateToClean={navigateToClean} />} />
       
       {/* CRUD Routes */}
       <Route

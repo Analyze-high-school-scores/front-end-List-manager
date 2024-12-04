@@ -1,5 +1,4 @@
 import React from "react";
-import { studentApi } from "../../api/student";
 import { motion } from "framer-motion";
 import { FaPlus, FaSearch, FaEdit, FaTrash, FaHistory, FaHome, FaCheck } from 'react-icons/fa';
 
@@ -11,12 +10,38 @@ const CRUDMain = ({
   navigateToHistory, 
   navigateToHome 
 }) => {
-  const handleFinishCRUD = async () => {
+  const handleFinish = async () => {
     try {
-      await studentApi.downloadUpdatedData();
-      alert('Đã lưu và tải xuống dữ liệu thành công!');
+        const response = await fetch('http://localhost:5000/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+
+        // Tạo và tải file
+        const blob = new Blob([result.data], { type: 'text/csv;charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Updated_Data.csv';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        // Hiển thị thông báo thành công
+        alert('Đã lưu dữ liệu thành công!');
+
     } catch (error) {
-      alert('Lỗi khi lưu dữ liệu: ' + error.message);
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra khi lưu dữ liệu: ' + error.message);
     }
   };
 
@@ -113,10 +138,10 @@ const CRUDMain = ({
           variants={buttonVariants}
           whileHover="hover"
           whileTap="tap"
-          onClick={navigateToHome}
-          className="flex items-center justify-center gap-3 px-6 py-4 bg-gray-500 text-white rounded-lg shadow-lg hover:bg-gray-600 transition-colors"
+          onClick={handleFinish}
+          className="flex items-center justify-center gap-3 px-6 py-4 bg-purple-500 text-white rounded-lg shadow-lg hover:bg-purple-600 transition-colors"
         >
-          <FaHome /> Về trang chủ
+          <FaCheck /> Hoàn tất CRUD
         </motion.button>
       </div>
 
@@ -124,10 +149,10 @@ const CRUDMain = ({
         variants={buttonVariants}
         whileHover="hover"
         whileTap="tap"
-        onClick={handleFinishCRUD}
-        className="flex items-center justify-center gap-3 px-8 py-4 mt-8 bg-purple-500 text-white rounded-lg shadow-lg hover:bg-purple-600 transition-colors"
+        onClick={navigateToHome}
+        className="flex items-center justify-center gap-3 px-8 py-4 mt-8 bg-gray-500 text-white rounded-lg shadow-lg hover:bg-gray-600 transition-colors"
       >
-        <FaCheck /> Hoàn tất CRUD
+        <FaHome /> Về trang chủ
       </motion.button>
     </motion.div>
   );
