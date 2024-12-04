@@ -6,11 +6,9 @@ import {
   HistogramChart,
   PieChart,
   AreaChart,
-  HeatmapChart,
-  ScatterChart
+  HeatmapChart
 } from './ChartTypes';
 import { FaChartBar, FaChartLine, FaChartArea, FaChartPie, FaHome } from 'react-icons/fa';
-import { BiScatterChart } from 'react-icons/bi';
 import { TbChartHistogram } from 'react-icons/tb';
 import { BsGrid1X2Fill } from 'react-icons/bs';
 
@@ -22,12 +20,11 @@ const ChartMain = ({ navigateToHome }) => {
   const charts = [
     { id: 'bar', name: 'Biểu Đồ Cột', icon: FaChartBar, component: BarChart, description: 'So sánh điểm trung bình các môn giữa năm 2018 và 2019' },
     { id: 'line', name: 'Biểu Đồ Đường', icon: FaChartLine, component: LineChart, description: 'Thể hiện sự thay đổi điểm trung bình theo thời gian' },
-    { id: 'histogram', name: 'Biểu Đồ Phân Phối', icon: TbChartHistogram, component: HistogramChart, description: 'Phân phối điểm số môn Toán năm 2018' },
+    { id: 'histogram', name: 'Biểu Đồ Phân Phối', icon: TbChartHistogram, component: HistogramChart, description: 'Phân phối điểm số các môn năm 2018 và 2019' },
     { id: 'pie', name: 'Biểu Đồ Tròn', icon: FaChartPie, component: PieChart, description: 'Tỉ lệ đậu/rớt của học sinh qua các năm' },
     { id: 'area', name: 'Biểu Đồ Vùng', icon: FaChartArea, component: AreaChart, description: 'Phân phối điểm theo từng khối học' },
     { id: 'heatmap2018', name: 'Ma Trận Tương Quan 2018', icon: BsGrid1X2Fill, component: () => <HeatmapChart year={2018} />, description: 'Mối tương quan giữa các môn học năm 2018' },
-    { id: 'heatmap2019', name: 'Ma Trận Tương Quan 2019', icon: BsGrid1X2Fill, component: () => <HeatmapChart year={2019} />, description: 'Mối tương quan giữa các môn học năm 2019' },
-    { id: 'scatter', name: 'Biểu Đồ Phân Tán', icon: BiScatterChart, component: ScatterChart, description: 'Mối quan hệ giữa điểm Toán và Văn' }
+    { id: 'heatmap2019', name: 'Ma Trận Tương Quan 2019', icon: BsGrid1X2Fill, component: () => <HeatmapChart year={2019} />, description: 'Mối tương quan giữa các môn học năm 2019' }
   ];
 
   const containerVariants = {
@@ -69,7 +66,7 @@ const ChartMain = ({ navigateToHome }) => {
             onClick={navigateToHome}
             className="flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm md:text-base"
           >
-            <FaHome /> Về trang chủ
+            <FaHome className="text-xl" /> Về trang chủ
           </button>
         </div>
 

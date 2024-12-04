@@ -27,8 +27,8 @@ export const chartApi = {
     return response.json();
   },
 
-  getHistogramData: async () => {
-    const response = await fetch(`${BASE_URL}/chart/histogram`);
+  getHistogramData: async (subject, year) => {
+    const response = await fetch(`${BASE_URL}/chart/histogram/${subject}/${year}`);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -53,14 +53,6 @@ export const chartApi = {
 
   getHeatmapData: async (year) => {
     const response = await fetch(`${BASE_URL}/chart/heatmap/${year}`);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  },
-
-  getScatterData: async () => {
-    const response = await fetch(`${BASE_URL}/chart/scatter`);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
