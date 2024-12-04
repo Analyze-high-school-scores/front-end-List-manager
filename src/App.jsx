@@ -8,6 +8,7 @@ import Update from './components/CRUD/Update';
 import Delete from './components/CRUD/Delete';
 import History from './components/CRUD/History';
 import ChartMain from './components/Chart/ChartMain';
+import CleanMain from './components/Clean/CleanMain';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ function AppContent() {
   const navigateToDelete = () => navigate('/crud/delete');
   const navigateToHistory = () => navigate('/crud/history');
   const navigateBackToCRUD = () => navigate('/crud');
+  const navigateToClean = () => navigate('/clean');
 
   return (
     <Routes>
@@ -64,6 +66,12 @@ function AppContent() {
       <Route
         path="/chart"
         element={<ChartMain navigateToHome={navigateToHome} />}
+      />
+
+      {/* Clean Route */}
+      <Route
+        path="/clean"
+        element={<CleanMain navigateToHome={navigateToHome} />}
       />
     </Routes>
   );
