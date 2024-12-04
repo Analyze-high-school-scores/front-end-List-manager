@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { studentApi } from '../../api/student';
 import { motion } from 'framer-motion';
-import { FaUserPlus, FaArrowRight, FaCheck } from 'react-icons/fa';
+import { FaArrowRight, FaCheck } from 'react-icons/fa';
 
 const Create = ({ navigateBack, navigateHome }) => {
   const [number, setNumber] = useState(0);
