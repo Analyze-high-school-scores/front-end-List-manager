@@ -12,7 +12,7 @@ const CleanMain = ({ navigateToHome }) => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(`http://localhost:5000/clean/${selectedOption}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/clean/${selectedOption}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
