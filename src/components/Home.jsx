@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaDatabase, FaChartBar } from 'react-icons/fa';
+import { FaDatabase, FaChartBar, FaBroom } from 'react-icons/fa';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -12,6 +12,10 @@ const Home = () => {
 
   const handleChart = () => {
     navigate('/chart');
+  };
+
+  const handleClean = () => {
+    navigate('/clean');
   };
 
   const containerVariants = {
@@ -69,6 +73,18 @@ const Home = () => {
         <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
         <FaChartBar className="text-2xl" />
         <span className="text-xl font-semibold">Chart</span>
+      </motion.button>
+
+      <motion.button
+        onClick={handleClean}
+        variants={buttonVariants}
+        whileHover="hover"
+        whileTap="tap"
+        className="group relative flex items-center justify-center gap-3 px-12 py-6 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl shadow-lg overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+        <FaBroom className="text-2xl" />
+        <span className="text-xl font-semibold">Clean</span>
       </motion.button>
     </motion.div>
   );
