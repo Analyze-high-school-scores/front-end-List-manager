@@ -37,11 +37,15 @@ const Update = ({ navigateBack, navigateHome }) => {
 
   const handleUpdate = async () => {
     try {
+      if (!query.Year) {
+        setError('Vui lòng nhập năm.');
+        return;
+      }
+
       // Tìm các trường đã thay đổi
       const changes = {};
       Object.keys(updatedData).forEach(key => {
-        // Chuyển đổi giá trị sang số nếu là điểm
-        if (['Toán', 'Văn', 'Lý', 'H��a', 'Sinh', 'Ngoại ngữ', 'Lịch sử', 'Địa lý', 'GDCD'].includes(key)) {
+        if (['Toán', 'Văn', 'Lý', 'Hóa', 'Sinh', 'Ngoại ngữ', 'Lịch sử', 'Địa lý', 'GDCD'].includes(key)) {
           changes[key] = updatedData[key] === '' ? null : Number(updatedData[key]);
         } else {
           changes[key] = updatedData[key];
@@ -53,11 +57,9 @@ const Update = ({ navigateBack, navigateHome }) => {
         return;
       }
 
-      // Đảm bảo có SBD và Year trong request
       const updateSBD = changes['Số Báo Danh'] || query.SBD;
       const updateYear = changes['Năm'] || query.Year;
 
-      // Gọi API cập nhật
       await studentApi.updateStudent(updateSBD, updateYear, changes);
       alert('Cập nhật thành công!');
       navigateHome();

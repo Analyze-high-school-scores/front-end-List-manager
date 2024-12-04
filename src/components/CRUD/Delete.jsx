@@ -4,19 +4,25 @@ import { motion } from 'framer-motion';
 import { FaTrash } from 'react-icons/fa';
 
 const Delete = ({ navigateBack, navigateHome }) => {
-  const [numberToDelete, setNumberToDelete] = useState(0); // Số lượng thí sinh cần xóa
-  const [currentIndex, setCurrentIndex] = useState(0); // Vị trí đang nhập
-  const [inputs, setInputs] = useState([]); // Danh sách các thí sinh cần xóa
+  const [numberToDelete, setNumberToDelete] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [inputs, setInputs] = useState([]);
   const [currentInput, setCurrentInput] = useState({ SBD: "", Year: "" });
+  const [error, setError] = useState(null);
 
   const handleFieldChange = (field, value) => {
     setCurrentInput((prev) => ({
       ...prev,
       [field]: value,
     }));
+    setError(null); // Reset error when user starts typing
   };
 
   const handleNext = () => {
+    if (!currentInput.Year) {
+      setError('Vui lòng nhập năm.');
+      return;
+    }
     if (currentIndex < numberToDelete) {
       setInputs((prev) => [...prev, currentInput]);
       setCurrentInput({ SBD: "", Year: "" });
@@ -25,11 +31,12 @@ const Delete = ({ navigateBack, navigateHome }) => {
   };
 
   const handleSubmit = async () => {
+    const confirmDelete = window.confirm('Bạn có chắc muốn xóa thí sinh này không?');
+    if (!confirmDelete) return;
+
     try {
-      // Thêm input cuối cùng vào mảng
       const allInputs = [...inputs, currentInput];
       
-      // Xóa từng thí sinh
       for (const input of allInputs) {
         await studentApi.deleteStudent(input.SBD, input.Year);
       }
@@ -106,6 +113,7 @@ const Delete = ({ navigateBack, navigateHome }) => {
                   onChange={(e) => handleFieldChange("Year", e.target.value)}
                   className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-red-300 transition-all"
                 />
+                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
               </div>
             </div>
             <motion.button
