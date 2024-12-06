@@ -300,7 +300,7 @@ export const HistogramChart = () => {
   };
 
   return (
-    <ChartContainer title="Phân phối điểm số" height="500px">
+    <ChartContainer title="Phân phối điểm số" height="600px">
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -335,7 +335,43 @@ export const HistogramChart = () => {
           </select>
         </div>
       </div>
-      <Bar data={data} options={options} />
+      <Bar data={data} options={{
+        ...options,
+        aspectRatio: 2.2,
+        maintainAspectRatio: true,
+        scales: {
+          ...options.scales,
+          x: {
+            ...options.scales.x,
+            ticks: {
+              font: {
+                size: 11
+              },
+              maxRotation: 0,
+              minRotation: 0,
+              padding: 5
+            },
+            grid: {
+              display: true,
+              drawBorder: true,
+              drawOnChartArea: true,
+              drawTicks: true,
+            }
+          },
+          y: {
+            ...options.scales.y,
+            beginAtZero: true,
+            ticks: {
+              precision: 0
+            }
+          }
+        },
+        layout: {
+          padding: {
+            bottom: 20
+          }
+        }
+      }} />
     </ChartContainer>
   );
 };
