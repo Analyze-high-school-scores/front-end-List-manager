@@ -16,3 +16,5 @@ Mở command prompt và di chuyển đến thư mục frontend:
 npm install
 npm start
 ```
+
+## [link repo deloy](https://github.com/AndyAnh174/list-manager)
